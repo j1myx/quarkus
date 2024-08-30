@@ -14,6 +14,8 @@ import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
 import org.jboss.jandex.MethodInfo;
+import org.jboss.jandex.Type;
+import org.jboss.logging.Logger;
 
 import io.quarkus.rest.data.panache.deployment.utils.ResourceName;
 
@@ -28,6 +30,8 @@ public class ResourcePropertiesProvider {
     private static final List<String> ANNOTATIONS_TO_COPY = List.of(RolesAllowed.class.getPackageName(),
             // To also support `@EndpointDisabled` if used
             "io.quarkus.resteasy.reactive.server");
+
+    private static final Logger LOGGER = Logger.getLogger(ResourcePropertiesProvider.class);
 
     private final IndexView index;
 
@@ -49,6 +53,7 @@ public class ResourcePropertiesProvider {
                 isHal(annotation),
                 getHalCollectionName(annotation, resourceClass),
                 getRolesAllowed(annotation),
+                getJsonView(annotation),
                 collectAnnotationsToCopy(resourceClassName),
                 collectMethodProperties(resourceClassName));
     }
@@ -116,13 +121,33 @@ public class ResourcePropertiesProvider {
     }
 
     private MethodProperties getMethodProperties(AnnotationInstance annotation, Set<AnnotationInstance> annotationsToCopy) {
-        return new MethodProperties(isExposed(annotation), getPath(annotation), getRolesAllowed(annotation), annotationsToCopy);
+        return new MethodProperties(isExposed(annotation), getPath(annotation), getRolesAllowed(annotation),
+                getJsonView(annotation), annotationsToCopy);
     }
 
     private boolean isHal(AnnotationInstance annotation) {
         return annotation != null
                 && annotation.value("hal") != null
                 && annotation.value("hal").asBoolean();
+    }
+
+    private Class<?>[] getJsonView(AnnotationInstance annotation) {
+        if (annotation != null && annotation.value("jsonView") != null) {
+            Type[] types = annotation.value("jsonView").asClassArray();
+            Class<?>[] classes = new Class[types.length];
+            for (var i = 0; i < types.length; i++) {
+                var className = types[i].name().toString();
+                try {
+                    classes[i] = Class.forName(className, false, Thread.currentThread().getContextClassLoader());
+                } catch (ClassNotFoundException classNotFoundException) {
+                    LOGGER.error("Class " + className + " not found", classNotFoundException);
+                }
+            }
+
+            return classes;
+        }
+
+        return new Class[0];
     }
 
     private boolean isPaged(AnnotationInstance annotation) {

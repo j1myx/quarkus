@@ -44,6 +44,7 @@ public abstract class StandardMethodImplementor implements MethodImplementor {
     private static final String SCHEMA_TYPE_CLASS_NAME = "org.eclipse.microprofile.openapi.annotations.enums.SchemaType";
     private static final String SCHEMA_TYPE_ARRAY = "ARRAY";
     private static final String ROLES_ALLOWED_ANNOTATION = "jakarta.annotation.security.RolesAllowed";
+    private static final String JSON_VIEW_ANNOTATION = "com.fasterxml.jackson.annotation.JsonView";
     private static final Logger LOGGER = Logger.getLogger(StandardMethodImplementor.class);
 
     protected final ResponseImplementor responseImplementor;
@@ -173,6 +174,13 @@ public abstract class StandardMethodImplementor implements MethodImplementor {
         String[] rolesAllowed = resourceProperties.getRolesAllowed(getResourceMethodName());
         if (rolesAllowed.length > 0 && hasSecurityCapability()) {
             element.addAnnotation(ROLES_ALLOWED_ANNOTATION).add("value", rolesAllowed);
+        }
+    }
+
+    protected void addJsonViewAnnotation(AnnotatedElement element, Class<?>[] value) {
+        if ((capabilities.isPresent(Capability.RESTEASY_JSON_JACKSON)
+                || capabilities.isPresent(Capability.RESTEASY_REACTIVE_JSON_JACKSON)) && value.length > 0) {
+            element.addAnnotation(JSON_VIEW_ANNOTATION).add("value", value);
         }
     }
 

@@ -12,13 +12,16 @@ public class MethodProperties {
 
     private final String[] rolesAllowed;
 
+    private final Class<?>[] jsonView;
+
     private final Collection<AnnotationInstance> methodAnnotations;
 
     public MethodProperties(boolean exposed, String path, String[] rolesAllowed,
-            Collection<AnnotationInstance> methodAnnotations) {
+            Class<?>[] jsonView, Collection<AnnotationInstance> methodAnnotations) {
         this.exposed = exposed;
         this.path = path;
         this.rolesAllowed = rolesAllowed;
+        this.jsonView = jsonView;
         this.methodAnnotations = methodAnnotations;
     }
 
@@ -32,6 +35,10 @@ public class MethodProperties {
 
     public String[] getRolesAllowed() {
         return rolesAllowed;
+    }
+
+    public Class<?>[] getJsonView() {
+        return jsonView;
     }
 
     public Collection<AnnotationInstance> getMethodAnnotations() {

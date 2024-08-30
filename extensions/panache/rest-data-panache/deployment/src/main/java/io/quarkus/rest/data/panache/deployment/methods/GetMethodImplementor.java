@@ -94,6 +94,7 @@ public final class GetMethodImplementor extends StandardMethodImplementor {
         addGetAnnotation(methodCreator);
         addProducesJsonAnnotation(methodCreator, resourceProperties);
         addMethodAnnotations(methodCreator, resourceProperties.getMethodAnnotations(RESOURCE_METHOD_NAME));
+        addJsonViewAnnotation(methodCreator, resourceProperties.getJsonView(RESOURCE_METHOD_NAME));
         addOpenApiResponseAnnotation(methodCreator, Response.Status.OK, resourceMetadata.getEntityType());
         addSecurityAnnotations(methodCreator, resourceProperties);
 

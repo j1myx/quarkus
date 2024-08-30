@@ -115,6 +115,7 @@ public final class AddMethodImplementor extends StandardMethodImplementor {
         addConsumesAnnotation(methodCreator, APPLICATION_JSON);
         addProducesJsonAnnotation(methodCreator, resourceProperties);
         addLinksAnnotation(methodCreator, resourceProperties, resourceMetadata.getEntityType(), REL);
+        addJsonViewAnnotation(methodCreator, resourceProperties.getJsonView(RESOURCE_METHOD_NAME));
         addOpenApiResponseAnnotation(methodCreator, Response.Status.CREATED, resourceMetadata.getEntityType());
         addSecurityAnnotations(methodCreator, resourceProperties);
         // Add parameter annotations

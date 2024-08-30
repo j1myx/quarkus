@@ -199,6 +199,7 @@ public class ListMethodImplementor extends StandardMethodImplementor {
         addProducesJsonAnnotation(methodCreator, resourceProperties);
         addLinksAnnotation(methodCreator, resourceProperties, resourceMetadata.getEntityType(), REL);
         addMethodAnnotations(methodCreator, resourceProperties.getMethodAnnotations(RESOURCE_METHOD_NAME));
+        addJsonViewAnnotation(methodCreator, resourceProperties.getJsonView(RESOURCE_METHOD_NAME));
         addOpenApiResponseAnnotation(methodCreator, Response.Status.OK, resourceMetadata.getEntityType(), true);
         addSecurityAnnotations(methodCreator, resourceProperties);
         addSortQueryParamValidatorAnnotation(methodCreator);
@@ -285,6 +286,7 @@ public class ListMethodImplementor extends StandardMethodImplementor {
         addProducesJsonAnnotation(methodCreator, resourceProperties);
         addLinksAnnotation(methodCreator, resourceProperties, resourceMetadata.getEntityType(), REL);
         addMethodAnnotations(methodCreator, resourceProperties.getMethodAnnotations(RESOURCE_METHOD_NAME));
+        addJsonViewAnnotation(methodCreator, resourceProperties.getJsonView(RESOURCE_METHOD_NAME));
         addOpenApiResponseAnnotation(methodCreator, Response.Status.OK, resourceMetadata.getEntityType(), true);
         addSecurityAnnotations(methodCreator, resourceProperties);
         addQueryParamAnnotation(methodCreator.getParameterAnnotations(0), "sort");

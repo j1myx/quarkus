@@ -9,12 +9,16 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
+@JsonView(EntityView.AllFields.class)
 public class Collection extends PanacheEntityBase {
 
     @Id
+    @JsonView(EntityView.OnlyIdField.class)
     public String id;
 
     public String name;

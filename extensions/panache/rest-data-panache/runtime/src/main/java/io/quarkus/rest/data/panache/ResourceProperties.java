@@ -64,4 +64,11 @@ public @interface ResourceProperties {
      * Default: ""
      */
     String[] rolesAllowed() default {};
+
+    /**
+     * Generate operation that support JsonView from jackson.
+     * <p>
+     * Default: ""
+     */
+    Class<?>[] jsonView() default {};
 }

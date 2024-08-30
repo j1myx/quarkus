@@ -48,8 +48,8 @@ public abstract class ResourcePropertiesProvider {
         String resourcePath = getPath(annotation, ResourceName.fromClass(interfaceName));
         String halCollectionName = getHalCollectionName(annotation, ResourceName.fromClass(interfaceName));
 
-        return new ResourceProperties(isExposed(annotation), resourcePath, paged, true, halCollectionName,
-                new String[0], collectAnnotationsToCopy(repositoryInterfaceName), getMethodProperties(repositoryInterfaceName));
+        return new ResourceProperties(isExposed(annotation), resourcePath, paged, true, halCollectionName, new String[0],
+                new Class[0], collectAnnotationsToCopy(repositoryInterfaceName), getMethodProperties(repositoryInterfaceName));
     }
 
     private Map<String, MethodProperties> getMethodProperties(DotName interfaceName) {
@@ -72,7 +72,8 @@ public abstract class ResourcePropertiesProvider {
     }
 
     private MethodProperties getMethodProperties(AnnotationInstance annotation, Set<AnnotationInstance> annotationsToCopy) {
-        return new MethodProperties(isExposed(annotation), getPath(annotation, ""), new String[0], annotationsToCopy);
+        return new MethodProperties(isExposed(annotation), getPath(annotation, ""), new String[0], new Class[0],
+                annotationsToCopy);
     }
 
     private Collection<AnnotationInstance> collectAnnotationsToCopy(DotName className) {
